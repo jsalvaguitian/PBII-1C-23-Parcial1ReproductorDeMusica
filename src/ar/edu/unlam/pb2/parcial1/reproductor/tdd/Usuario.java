@@ -120,6 +120,10 @@ public abstract class Usuario {
 	public HashSet<ListaDeReproduccion> getBiblioteca() {
 		return biblioteca;
 	}
+
+	public void setInicioSesion(Boolean inicioSesion) {
+		this.inicioSesion = inicioSesion;
+	}
 	
 
 }
