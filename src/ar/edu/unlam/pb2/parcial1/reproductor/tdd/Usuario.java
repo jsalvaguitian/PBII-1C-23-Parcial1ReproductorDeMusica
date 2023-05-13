@@ -1,8 +1,5 @@
 package ar.edu.unlam.pb2.parcial1.reproductor.tdd;
 
-import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Objects;
 
 public abstract class Usuario {
 	private String username;

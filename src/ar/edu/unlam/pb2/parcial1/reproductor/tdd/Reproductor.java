@@ -52,7 +52,6 @@ public class Reproductor {
 					}
 				}
 			}
-
 		}
 		return exitoso;
 
@@ -95,5 +94,45 @@ public class Reproductor {
 
 		return false;
 	}
+
+	public boolean agregarCancionALaBD(Cancion cancion) {
+		return this.baseDeDatosCanciones.add(cancion);
+	}
+
+	public Integer getCantidadCancionesEnLaBD() {
+		return this.baseDeDatosCanciones.size();
+	}
+
+	public Boolean agregarPodcast(Podcast unPodcast) {
+		return this.baseDeDatosPodcast.add(unPodcast);
+	}
+
+	public boolean guardarEpisodio(Podcast unPodcast, Episodio episodio) {
+		
+		if(this.baseDeDatosPodcast.contains(unPodcast))
+			return unPodcast.agregarEpisodio(episodio);
+		
+		return false;
+	}
+
+
+	public Integer getCantidadDeEpisodiosDelPodcastPorNombre(String nombreDelPodcast) {
+		Podcast encontrado = buscarPodcastPorNombre(nombreDelPodcast);
+		if(encontrado!=null) {
+			return encontrado.obtenerCantidadEpisodios();
+		}
+		return null;
+	}
+	
+	public Podcast buscarPodcastPorNombre(String nombreDelPodcast) {
+		for(Podcast uno: this.baseDeDatosPodcast) {
+			if(uno.getNombre().equals(nombreDelPodcast)){
+				return uno;
+			}
+		}
+		return null;
+	}
+	
+	
 
 }
