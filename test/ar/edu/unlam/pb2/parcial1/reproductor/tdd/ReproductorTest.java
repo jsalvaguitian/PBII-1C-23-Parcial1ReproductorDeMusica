@@ -339,7 +339,28 @@ public class ReproductorTest {
 
 	}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
+	@Test
+	public void queSePuedaIniciarSesionSiElUsuarioBasicoEstaRegistradoEnElReproductor() {
 
+		// PREPARACION
+		final String NOMBRE = "Onda Feliz";
+		Reproductor reproductor = new Reproductor(NOMBRE);
+
+		// Usuario Registrado
+		final String USERNAME = "karen123";
+		final String MAIL = "karen@mail.com";
+		final String PASSWORD = "k@reN1567";
+		final int DIA = 5;
+		final int MES = 10;
+		final int ANIO = 1997;
+		Usuario miUser = new UsuarioBasico(USERNAME, MAIL, PASSWORD, DIA, MES, ANIO);
+
+		reproductor.registrarUsuario(miUser);
+
+		assertNotNull(reproductor.iniciarSesion(USERNAME, PASSWORD));
+
+	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Probar Almacenar canciones,episodios en sus respectivas bd
 
 	@Test
