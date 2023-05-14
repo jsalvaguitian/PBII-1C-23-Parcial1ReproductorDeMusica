@@ -9,7 +9,7 @@ public abstract class Usuario {
 	private String username;
 	private String mail;
 	private String password;
-	private final Integer MINIMA_LONGITUD_PASSWORD=6;
+	private static final Integer MINIMA_LONGITUD_PASSWORD=6;
 	protected LocalDate fechaDeNacimiento;
 	protected Boolean inicioSesion;
 	protected LinkedHashSet<ListaDeReproduccion> biblioteca;
@@ -62,7 +62,7 @@ public abstract class Usuario {
 		Boolean hayMayuscula = false;
     		Boolean hayMinuscula = false;
     		Boolean hayNumero = false;
-		if(password.length>=MINIMA_LONGITUD_PASSWORD){
+		if(password.length()>=MINIMA_LONGITUD_PASSWORD){
 	    		for(int i=0;i < password.length();i++) {
         			ch = password.charAt(i);
         			if( Character.isDigit(ch)) {
