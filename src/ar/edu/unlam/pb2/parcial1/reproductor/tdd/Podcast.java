@@ -7,7 +7,6 @@ public class Podcast extends ListaDeReproduccion{
 	private Categoria categoria;
 	private String autor;
 	private String descripcion;
-	private Formato formato;
 	private LinkedHashSet<Episodio>episodios;
 	
 
@@ -16,7 +15,6 @@ public class Podcast extends ListaDeReproduccion{
 		this.autor = autor;
 		this.descripcion = descripcion;
 		this.categoria = categoria;
-		this.formato = formato;
 		this.episodios = new LinkedHashSet<Episodio>();
 	}
 
@@ -45,7 +43,7 @@ public class Podcast extends ListaDeReproduccion{
 		return formato;
 	}
 
-	public boolean agregarEpisodio(Episodio episodio) {
+	public Boolean agregarEpisodio(Episodio episodio) {
 		return this.episodios.add(episodio);
 	}
 
@@ -54,8 +52,9 @@ public class Podcast extends ListaDeReproduccion{
 		return this.episodios.size();
 	}
 	
-	public boolean borrarEpisodio(Episodio episodio) {
-		if(!this.episodios.isEmpty()) {
+	public Boolean borrarEpisodio(Episodio episodio) {
+		
+		if(!this.episodios.isEmpty() && this.episodios.contains(episodio)) {
 			return this.episodios.remove(episodio);
 		}
 		return false;
