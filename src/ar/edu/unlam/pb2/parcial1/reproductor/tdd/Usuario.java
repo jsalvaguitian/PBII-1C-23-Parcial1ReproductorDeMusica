@@ -9,6 +9,7 @@ public abstract class Usuario {
 	private String username;
 	private String mail;
 	private String password;
+	private final Integer MINIMA_LONGITUD_PASSWORD=6;
 	protected LocalDate fechaDeNacimiento;
 	protected Boolean inicioSesion;
 	protected LinkedHashSet<ListaDeReproduccion> biblioteca;
@@ -54,9 +55,29 @@ public abstract class Usuario {
 		return exitoso;
 	}
 
-	/* A Terminar */
+	/* Se considera valida la contraseña si tiene una longitud minima y al menos un numero, una mayuscula y una minuscula */
 	public static Boolean esValidoLaContrasenia(String password) {
-		return true;
+		char ch;
+		Boolean esValido = false;
+		Boolean hayMayuscula = false;
+    		Boolean hayMinuscula = false;
+    		Boolean hayNumero = false;
+		if(password.length>=MINIMA_LONGITUD_PASSWORD){
+	    		for(int i=0;i < password.length();i++) {
+        			ch = password.charAt(i);
+        			if( Character.isDigit(ch)) {
+            				hayNumero = true;
+        			}
+        			else if (Character.isUpperCase(ch)) {
+            				hayMayuscula = true;
+        			} else if (Character.isLowerCase(ch)) {
+            				hayMinuscula = true;
+        			}
+        			if(hayNumero && hayMayuscula && hayMinuscula)
+            				return esValido=true;
+    			}
+		}	
+		return esValido;
 	}
 
 	/*
