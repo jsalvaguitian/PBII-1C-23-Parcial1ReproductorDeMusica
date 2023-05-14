@@ -155,6 +155,40 @@ public class ReproductorTest {
 	}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 	@Test
+	public void queSePuedaRegistrarDosUsuariosBasicosConDatosValidos(){
+		// Preparacion de datos
+		final String NOMBRE = "Onda Feliz";
+		Reproductor reproductor = new Reproductor(NOMBRE);
+
+		// Usuario 1
+		final String USERNAME = "jesibel12";
+		final String MAIL = "jesi@mail.com";
+		final String PASSWORD = "b@Rto1357";
+		final int DIA = 2;
+		final int MES = 11;
+		final int ANIO = 1996;
+		Usuario user1 = new UsuarioBasico(USERNAME, MAIL, PASSWORD, DIA, MES, ANIO);
+
+		// Usuario 2
+		final String USERNAME_2 = "karen123";
+		final String MAIL_2 = "karen@mail.com";
+		final String PASSWORD_2 = "k@reN1567";
+		final int DIA_2 = 5;
+		final int MES_2 = 10;
+		final int ANIO_2 = 1995;
+		Usuario user2 = new UsuarioBasico(USERNAME_2, MAIL_2, PASSWORD_2, DIA_2, MES_2, ANIO_2);
+
+		final Integer CANTIDAD_USUARIOS_ESPERADOS_DOS = 2;
+
+		// Ejecucion
+		reproductor.registrarUsuario(user1);
+		reproductor.registrarUsuario(user2);
+
+		// Validacion
+		assertEquals(CANTIDAD_USUARIOS_ESPERADOS_DOS, reproductor.obtenerCantidadUsuarios());
+	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+	@Test
 	public void queSePuedaRegistrarUnUsuarioPremiumYBasicoEnLaBaseDeDatosDeUsuarios() {
 		// Preparacion de datos
 		final String NOMBRE = "Onda Feliz";
