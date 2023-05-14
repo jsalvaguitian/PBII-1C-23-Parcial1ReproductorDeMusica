@@ -38,13 +38,13 @@ public class Podcast extends ListaDeReproduccion{
 	public Categoria getCategoria() {
 		return categoria;
 	}
-
-	public Formato getFormato() {
-		return formato;
-	}
+	
 
 	public Boolean agregarEpisodio(Episodio episodio) {
-		return this.episodios.add(episodio);
+		if(!this.episodios.contains(episodio)) {
+			return this.episodios.add(episodio);
+		}
+		return false;
 	}
 
 
