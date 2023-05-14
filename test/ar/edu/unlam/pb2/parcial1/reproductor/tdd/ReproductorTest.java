@@ -676,5 +676,41 @@ public class ReproductorTest {
 
 	}
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+	@Test
+	public void queNoSePuedaSubirElVolumenDeUnaCancionMasDelMaximo() {
+		// Preparacion de datos 
+		Boolean resultadoObtenido;
+		Boolean resultadoEsperado=false;
+		Cancion unaCancion = new Cancion("Billie Jean", "Michael Jackson", "2:59", Genero.POP,"");
+		unaCancion.volumenAudio.setVolumenActual(10);
+		
+		// Ejecucion
+		resultadoObtenido=unaCancion.volumenAudio.subirVolumen();
+		
+		// Validacion
+		assertEquals(resultadoEsperado,resultadoObtenido);
+		
+	}
+	
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+	@Test
+	public void queNoSePuedaBajarElVolumenDeUnaCancionMenosDelMinimo() {
+		// Preparacion de datos 
+		Boolean resultadoObtenido;
+		Boolean resultadoEsperado=false;
+		Cancion otraCancion = new Cancion("Que bonito", "Rosario", "4:59", Genero.POP,"");
+		otraCancion.volumenAudio.setVolumenActual(0);
+		
+		// Ejecucion
+		resultadoObtenido=otraCancion.volumenAudio.bajarVolumen();
+		
+		// Validacion
+		assertEquals(resultadoEsperado,resultadoObtenido);
+		
+	}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////	
+	
 
 }
