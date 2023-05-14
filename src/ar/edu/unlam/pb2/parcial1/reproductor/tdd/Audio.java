@@ -10,7 +10,7 @@ public abstract class Audio {
 		this.nombre = nombre;
 		this.artista = artista;
 		this.duracion = duracion;
-		this.volumenAudio.setVolumenAudio(2);
+		this.volumenAudio = new Volumen(2);
 	}
 
 /* 
