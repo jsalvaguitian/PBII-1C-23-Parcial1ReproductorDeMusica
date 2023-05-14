@@ -10,10 +10,12 @@ public abstract class Audio {
 		this.nombre = nombre;
 		this.artista = artista;
 		this.duracion = duracion;
-		this.volumenAudio=2;
+		this.volumenAudio.setVolumenAudio(2);
 	}
 
-# por defecto, al comienzo el volumen está en 2, luego se puede modificar
+/* 
+por defecto, al comienzo el volumen está en 2, luego se puede modificar 
+*/
 
 	@Override
 	public int hashCode() {
@@ -58,6 +60,8 @@ public abstract class Audio {
 		return duracion;
 	}
 	
-# la sobreescritura de hashcode y de equals, nos permitira establecer el criterio por el cual 2 objetos de audio son iguales
+/* 
+la sobreescritura de hashcode y de equals, nos permitira establecer el criterio por el cual 2 objetos de audio son iguales
+*/
 
 }
