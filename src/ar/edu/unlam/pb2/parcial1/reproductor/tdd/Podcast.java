@@ -1,19 +1,21 @@
 package ar.edu.unlam.pb2.parcial1.reproductor.tdd;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 public class Podcast extends ListaDeReproduccion{
 	//private static Integer id; //veremos si nos servira luego...
+	private Categoria categoria;
 	private String autor;
 	private String descripcion;
-	private HashSet<Episodio>episodios;
+	private LinkedHashSet<Episodio>episodios;
 	
 
-	public Podcast(String nombre, String autor, String descripcion) {
+	public Podcast(String nombre, String autor, String descripcion, Categoria categoria) {
 		super(nombre);
 		this.autor = autor;
 		this.descripcion = descripcion;
-		this.episodios = new HashSet<Episodio>();
+		this.categoria = categoria;
+		this.episodios = new LinkedHashSet<Episodio>();
 	}
 
 
@@ -27,8 +29,14 @@ public class Podcast extends ListaDeReproduccion{
 	}
 
 
-	public HashSet<Episodio> getEpisodios() {
+	public LinkedHashSet<Episodio> getEpisodios() {
 		return episodios;
+	}
+
+
+	
+	public Categoria getCategoria() {
+		return categoria;
 	}
 
 

@@ -2,6 +2,9 @@ package ar.edu.unlam.pb2.parcial1.reproductor.tdd;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+
 import org.junit.Test;
 
 public class ReproductorTest {
@@ -35,7 +38,7 @@ public class ReproductorTest {
 		assertEquals(CANTIDAD_USUARIO_ESPERADO_UNO, reproductor.obtenerCantidadUsuarios());
 
 	}
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 	@Test
 	public void queNoSePuedaRegistrarUnUsuarioBasicoQueNoTengaUnMailValido() {
 		// Preparacion de datos
@@ -59,7 +62,7 @@ public class ReproductorTest {
 		assertFalse(reproductor.registrarUsuario(user));
 		assertEquals(CANTIDAD_USUARIO_ESPERADO_CERO, reproductor.obtenerCantidadUsuarios());
 	}
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 	@Test
 	public void queNoSePuedaRegistrarUnUsuarioBasicoSiSuMailEstaDuplicadoEnLaBaseDeDatosDeUsuarios() {
 		// Preparacion de datos
@@ -93,7 +96,7 @@ public class ReproductorTest {
 		assertFalse(reproductor.registrarUsuario(user2));
 		assertEquals(CANTIDAD_USUARIO_ESPERADO_UNO, reproductor.obtenerCantidadUsuarios());
 	}
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 	@Test
 	public void queSePuedaRegistrarUnUsuarioPremiumYBasicoEnLaBaseDeDatosDeUsuarios() {
 		// Preparacion de datos
@@ -130,7 +133,7 @@ public class ReproductorTest {
 		assertEquals(CANTIDAD_USUARIO_ESPERADO_DOS, reproductor.obtenerCantidadUsuarios());
 
 	}
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 	@Test
 	public void queNoSePuedaRegistrarUnUsuarioConFechaDeNacimientoNoValido() {
 		// Preparacion de datos
@@ -154,8 +157,8 @@ public class ReproductorTest {
 		assertEquals(CANTIDAD_USUARIO_ESPERADO_CERO, reproductor.obtenerCantidadUsuarios());
 
 	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// __________________________________________________________________________________________
 	// Probar el inicio sesion del usuario
 
 	@Test
@@ -180,10 +183,10 @@ public class ReproductorTest {
 		final String MAIL_NO_REGISTRADO = "elmichi@mail.com";
 		final String PASSWORD_NO_REGISTRADA = "soyUnMichiG@lactico1";
 
-		assertFalse(reproductor.iniciarSesion(MAIL_NO_REGISTRADO, PASSWORD_NO_REGISTRADA));
+		assertNull(reproductor.iniciarSesion(MAIL_NO_REGISTRADO, PASSWORD_NO_REGISTRADA)); // no tiene id
 
 	}
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 	@Test
 	public void queNoSePuedaIniciarSesionSiElUsuarioPremiumIngresosSuMailOUsernameNoValido() {
 
@@ -207,11 +210,11 @@ public class ReproductorTest {
 		final String USERNAME_INGRESADO = "Lean21";
 		final String PASSWORD_INGRESADO = "M1ch!1357";
 
-		assertFalse(reproductor.iniciarSesion(USERNAME_INGRESADO, PASSWORD_INGRESADO));
+		assertNull(reproductor.iniciarSesion(USERNAME_INGRESADO, PASSWORD_INGRESADO));
 
 	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// __________________________________________________________________________________________
 	// Probar Almacenar canciones,episodios en sus respectivas bd
 
 	@Test
@@ -234,7 +237,7 @@ public class ReproductorTest {
 		assertTrue(reproductor.agregarCancionALaBD(cancion));
 		assertEquals(CANTIDAD_DE_CANCION_ESPERADA, reproductor.getCantidadCancionesEnLaBD());
 	}
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 	@Test
 	public void queSePuedaAgregarEpisodioEnUnPodcastDeLaBaseDeDatosDePodcast() {
 		// PREPARACION
@@ -245,8 +248,8 @@ public class ReproductorTest {
 		final String NOMBRE_PODCAST = "Relatos en inglés con Duolingo";
 		final String AUTOR = "Duolingo";
 		final String DESCRIPCION = "Mejora tu inglés mediante relatos de la vida real narradas en inglés";
-		final Integer ID_PODCAST = 1;
-		Podcast unPodcast = new Podcast(NOMBRE_PODCAST, AUTOR, DESCRIPCION);
+		final Categoria CATEGORIA = Categoria.EDUCACION;
+		Podcast unPodcast = new Podcast(NOMBRE_PODCAST, AUTOR, DESCRIPCION, CATEGORIA);
 		reproductor.agregarPodcast(unPodcast);
 
 		// preparo el episodio
@@ -266,7 +269,7 @@ public class ReproductorTest {
 				reproductor.getCantidadDeEpisodiosDelPodcastPorNombre(NOMBRE_DEL_PODCAST_QUE_PERTENECE));
 
 	}
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 	@Test
 	public void queNoSePuedaGuardarCancionConNombreYArtistaDuplicadoEnLaBDDeCancionesDelReproductor() {
 		// PREPARACION
@@ -279,21 +282,399 @@ public class ReproductorTest {
 		final String ARTISTA = "Los Rodriguez";
 		final String DURACION = "4:49";
 		final Genero GENERO = Genero.ROCK;
-		final String LETRA = "Déjame atravesar el viento sin documentos\n"
-							+ "Que lo haré por el tiempo que tuvimos\n"
-							+ "Porque no queda salida, porque pareces dormida\n"
-							+ "Porque buscando tu sonrisa estaría toda mi vida";
+		final String LETRA = "Déjame atravesar el viento sin documentos\n" + "Que lo haré por el tiempo que tuvimos\n"
+				+ "Porque no queda salida, porque pareces dormida\n"
+				+ "Porque buscando tu sonrisa estaría toda mi vida";
 
-		//Ejecucion
+		// Ejecucion
 		Cancion cancion = new Cancion(NOMBRE_CANCION, ARTISTA, DURACION, GENERO, LETRA);
 		Cancion cancionDos = new Cancion(NOMBRE_CANCION, ARTISTA, DURACION, GENERO, LETRA);
-		
+
 		reproductor.agregarCancionALaBD(cancion);
-		
-		//vALIDACION
+
+		// vALIDACION
 		assertFalse(reproductor.agregarCancionALaBD(cancionDos));
 		assertEquals(CANTIDAD_DE_CANCION_ESPERADA, reproductor.getCantidadCancionesEnLaBD());
-		
+
 	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Prueba de filtros
+	@Test
+	public void queSePuedaBuscarCancionesPorGenero() {
+		// PREPARACION
+		final String NOMBRE = "Onda Feliz";
+		final Genero GENERO_SELECCIONADO = Genero.LATINO;
+
+		Reproductor reproductor = new Reproductor(NOMBRE);
+
+		final String INFORMACION_ESPERADA = "\n1-Cancion: " + "Piel morena" + "\nArtista: " + "Thalia" + "\nDuracion: "
+				+ "2:29" + "\nLetra: Eres piel morena" + "\nCanto de pasión y arena" + "\nEres piel morena"
+				+ "\n------------------------------------------------------" + "\n2-Cancion: " + "Bebiendo sola"
+				+ "\nArtista: " + "Camilo y Mike Towers" + "\nDuracion: " + "4:19"
+				+ "\nLetra: De lejos se ve que tiene el corazón roto" + "\nYo con solo mirarla lo noto"
+				+ "\n------------------------------------------------------";
+
+		reproductor.inicializarBaseDeDatosconCanciones();
+
+		LinkedHashSet<Cancion> encontradas = reproductor.buscarCancionesPorGenero(GENERO_SELECCIONADO);
+
+		assertEquals(INFORMACION_ESPERADA, reproductor.mostrarUnaListaEspecifica(encontradas));
+
+	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+	// *********************************************************
+	// Prueba de que el usuario pueda crear y agregar canciones en su playList
+	@Test
+	public void quePuedaAgregarSoloDosPlaylistEnLaBibliotecaDelUsuarioBasico() {
+		// *****PREPARACION*****
+		// Registro un usuario basico
+		final String NOMBRE = "Onda Feliz";
+		Reproductor reproductor = new Reproductor(NOMBRE);
+
+		final String NOMBRE_PLAYLIST_1 = "Un poco de todo";
+		final String NOMBRE_PLAYLIST_2 = "Disco";
+		final String NOMBRE_PLAYLIST_3 = "Fiesta";
+		final Integer CANTIDAD_PLAYLIST_ESPERADA = 2;
+		final String USERNAME = "jesibel12";
+		final String MAIL = "jesi@mail.com";
+		final String PASSWORD = "b@Rto1357";
+		final int DIA = 2;
+		final int MES = 11;
+		final int ANIO = 1996;
+		Usuario user = new UsuarioBasico(USERNAME, MAIL, PASSWORD, DIA, MES, ANIO);
+
+		reproductor.registrarUsuario(user);
+
+		// Inicio sesion el usuario basico
+		reproductor.iniciarSesion(MAIL, PASSWORD);
+
+		// Que agregue 2 playlist
+		user.crearNuevaPlayList(NOMBRE_PLAYLIST_1);
+		user.crearNuevaPlayList(NOMBRE_PLAYLIST_2);
+
+		// ****EJECUCION******
+		// Que intente agregar la 3ra playlist y no pueda guardarla
+		assertFalse(user.crearNuevaPlayList(NOMBRE_PLAYLIST_3));
+
+		// *****VALIDACION*****
+		// validar que se tenga solo 2 playlist
+		assertEquals(CANTIDAD_PLAYLIST_ESPERADA, user.obtenerLaCantidadDePlayList());
+
+	}
+	
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+	@Test
+	public void queNoSePuedaAgregarMasDe10CancionesEnUnaPlayListDeUsuarioBasico() {
+		// *****PREPARACION*****
+		// Registro un usuario basico
+		final String NOMBRE = "Onda Feliz";
+		Reproductor reproductor = new Reproductor(NOMBRE);
+		reproductor.inicializarBaseDeDatosconCanciones();
+
+		final String NOMBRE_PLAYLIST_1 = "Un poco de todo";
+
+		final Integer CANTIDAD_PLAYLIST_ESPERADA = 2;
+		final String USERNAME = "jesibel12";
+		final String MAIL = "jesi@mail.com";
+		final String PASSWORD = "b@Rto1357";
+		final int DIA = 2;
+		final int MES = 11;
+		final int ANIO = 1996;
+		Usuario user = new UsuarioBasico(USERNAME, MAIL, PASSWORD, DIA, MES, ANIO);
+
+		reproductor.registrarUsuario(user);
+
+		// Inicio sesion el usuario basico
+		reproductor.iniciarSesion(MAIL, PASSWORD);
+
+		// Agrego una playlist
+		user.crearNuevaPlayList(NOMBRE_PLAYLIST_1);
+
+		// Agregarle 10 canciones :-s mama mia
+		Cancion cancionSeleccionada = reproductor.buscarCancionesPorNombre("Piel morena");
+		Cancion cancionSeleccionada2 = reproductor.buscarCancionesPorNombre("The show must go on");
+		Cancion cancionSeleccionada3 = reproductor.buscarCancionesPorNombre("Hot in it");
+		Cancion cancionSeleccionada4 = reproductor.buscarCancionesPorNombre("Piel morena");
+		Cancion cancionSeleccionada5 = reproductor.buscarCancionesPorNombre("Thriller");
+		Cancion cancionSeleccionada6 = reproductor.buscarCancionesPorNombre("Piel morena");
+		Cancion cancionSeleccionada7 = reproductor.buscarCancionesPorNombre("Prelude in C Major");
+		Cancion cancionSeleccionada8 = reproductor.buscarCancionesPorNombre("Piel morena");
+		Cancion cancionSeleccionada9 = reproductor.buscarCancionesPorNombre("Piel morena");
+		Cancion cancionSeleccionada10 = reproductor.buscarCancionesPorNombre("Hot in it");
+		Cancion cancionSeleccionadaQueNoSeGuarda = reproductor.buscarCancionesPorNombre("Hey Jude");
+
+		// ***** EJECUCION *****
+		user.agregarCancionALaPLayList(NOMBRE_PLAYLIST_1, cancionSeleccionada);
+		user.agregarCancionALaPLayList(NOMBRE_PLAYLIST_1, cancionSeleccionada2);
+		user.agregarCancionALaPLayList(NOMBRE_PLAYLIST_1, cancionSeleccionada3);
+		user.agregarCancionALaPLayList(NOMBRE_PLAYLIST_1, cancionSeleccionada4);
+		user.agregarCancionALaPLayList(NOMBRE_PLAYLIST_1, cancionSeleccionada5);
+		user.agregarCancionALaPLayList(NOMBRE_PLAYLIST_1, cancionSeleccionada6);
+		user.agregarCancionALaPLayList(NOMBRE_PLAYLIST_1, cancionSeleccionada7);
+		user.agregarCancionALaPLayList(NOMBRE_PLAYLIST_1, cancionSeleccionada8);
+		user.agregarCancionALaPLayList(NOMBRE_PLAYLIST_1, cancionSeleccionada9);
+		user.agregarCancionALaPLayList(NOMBRE_PLAYLIST_1, cancionSeleccionada10);
+
+		// VALIDACION
+		assertFalse(user.agregarCancionALaPLayList(NOMBRE_PLAYLIST_1, cancionSeleccionadaQueNoSeGuarda));
+	}
+	
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+	/*
+	 *Un intento de obtener 1 dailyMix de 5 canciones, el cual se basará según la música que escucha y/o
+	 * el género de canciones que le gusta
+	 */
+	@Test
+	public void queElUsuarioBasicoPuedaAgregarSoloUnaDailyMixDe5CancionesDeLas3AElegir() {
+		// PREPARACION
+		final String NOMBRE = "Onda Feliz";
+		Reproductor reproductor = new Reproductor(NOMBRE);
+		
+		//Ganó thriller es pop: agregar 4 canciones de michael jackson y canciones pop en la db para la prueba
+		reproductor.agregarCancionALaBD(new Cancion("Thriller", "Michael Jackson", "2:59", Genero.POP,""));
+		
+		reproductor.agregarCancionALaBD(new Cancion("Que bonito", "Rosario", "4:59", Genero.POP,""));
+		
+		reproductor.agregarCancionALaBD(new Cancion("Brother Louie", "Modern Talking", "3:29", Genero.POP,""));
+		
+		reproductor.agregarCancionALaBD(new Cancion("Calm down", "Selena Gomez", "2:59", Genero.POP,""));
+		
+		reproductor.agregarCancionALaBD(new Cancion("Remember the time", "Michael Jackson", "2:59", Genero.POP,""));
+		
+		reproductor.agregarCancionALaBD(new Cancion("Love never felt so good", "Michael Jackson", "2:59", Genero.POP,""));
+		
+		reproductor.agregarCancionALaBD(new Cancion("Billie Jean", "Michael Jackson", "2:59", Genero.POP,""));
+
+		//---------------------------------------------------
+		reproductor.inicializarBaseDeDatosconCanciones();
+		final String USERNAME = "juani";
+		final String MAIL = "juan@mail.com";
+		final String PASSWORD = "b@Rto1357";
+		final int DIA = 12;
+		final int MES = 12;
+		final int ANIO = 1996;
+		final Integer CANTIDAD_DE_DAILYMIX = 3;
+		final Integer CANTIDAD_MAX_CANCIONES = 5;
+		
+		Usuario user = new UsuarioBasico(USERNAME, MAIL, PASSWORD, DIA, MES, ANIO);
+		reproductor.registrarUsuario(user);
+		Integer idUser = reproductor.iniciarSesion(MAIL, PASSWORD);
+		
+		Cancion cancionSonando = reproductor.buscarCancionesPorNombre("The show must go on");
+		reproductor.play(cancionSonando, idUser);
+		
+		Cancion cancionSonando2 = reproductor.buscarCancionesPorNombre("Thriller");
+		reproductor.play(cancionSonando2, idUser);
+		
+		Cancion cancionSonando3 = reproductor.buscarCancionesPorNombre("The show must go on");
+		reproductor.play(cancionSonando3, idUser);
+		
+		Cancion cancionSonando4 = reproductor.buscarCancionesPorNombre("Thriller");
+		reproductor.play(cancionSonando4, idUser);
+		
+		Cancion cancionSonando5 = reproductor.buscarCancionesPorNombre("Thriller");
+		reproductor.play(cancionSonando5, idUser);
+		
+		reproductor.crearDailyMixes(CANTIDAD_DE_DAILYMIX, CANTIDAD_MAX_CANCIONES, idUser);
+
+		ListaDeReproduccion dailymixSeleccionada = user.seleccionarDailymix("dailyMix 2");
+		ListaDeReproduccion dailymixNoPermitida = user.seleccionarDailymix("dailyMix 1");
+
+	
+		assertEquals(CANTIDAD_DE_DAILYMIX, (Integer)user.getDailyMixes().size());
+		assertTrue(user.agregarDailymix(dailymixSeleccionada));
+		assertFalse(user.agregarDailymix(dailymixNoPermitida));
+	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Aclaracion: solo los usuarios premium
+	@Test
+	public void queSePuedaSeleccionarUnaCancionComoFavoritaYAutomaticamenteAgregarseEnUnaPlaylistTusMeGusta() {
+		// PREPARACION
+		// 1- preparo el reproductor
+		final String NOMBRE = "Onda Feliz";
+		Reproductor reproductor = new Reproductor(NOMBRE);
+		reproductor.inicializarBaseDeDatosconCanciones();
+
+		// 2-registro un usuario premium
+		final String USERNAME = "juani";
+		final String MAIL = "juan@mail.com";
+		final String PASSWORD = "b@Rto1357";
+		final int DIA = 12;
+		final int MES = 12;
+		final int ANIO = 1996;
+
+		Usuario user = new UsuarioPremium(USERNAME, MAIL, PASSWORD, DIA, MES, ANIO);
+		reproductor.registrarUsuario(user);
+
+		// 3-inicia sesion
+		reproductor.iniciarSesion(MAIL, PASSWORD);
+
+		// 4-el usuario busca una cancion por el nombre
+		Cancion cancionBuscada = reproductor.buscarCancionesPorNombre("Nocturne op 9 no 2");
+
+		// VALIDACION
+		assertTrue(user.seleccionarCancionComoFavorita(cancionBuscada));
+	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+	@Test
+	public void queSePuedaDeseleccionarUnaCancionFavoritaYDesaparezcaDeListaTusMeGusta() {
+		// PREPARACION
+		// 1- preparo el reproductor
+		final String NOMBRE = "Onda Feliz";
+		Reproductor reproductor = new Reproductor(NOMBRE);
+		reproductor.inicializarBaseDeDatosconCanciones();
+
+		// 2-registro un usuario premium
+		final String USERNAME = "juani";
+		final String MAIL = "juan@mail.com";
+		final String PASSWORD = "b@Rto1357";
+		final int DIA = 12;
+		final int MES = 12;
+		final int ANIO = 1996;
+		final String CANCION = "Nocturne op 9 no 2";
+		final String CANCION_DOS = "Thriller";
+		final Integer CANTIDAD_CANCIONES_EN_FAVORITOS_UNO = 1;
+		final String NOMBRE_PLAYLIST = "Tus me gustas";
+		Usuario user = new UsuarioPremium(USERNAME, MAIL, PASSWORD, DIA, MES, ANIO);
+		reproductor.registrarUsuario(user);
+
+		// 3-inicia sesion
+		reproductor.iniciarSesion(MAIL, PASSWORD);
+
+		// 4-el usuario busca una cancion por el nombre
+		Cancion cancionBuscada = reproductor.buscarCancionesPorNombre(CANCION);
+		Cancion buscadaDos = reproductor.buscarCancionesPorNombre(CANCION_DOS);
+
+		user.seleccionarCancionComoFavorita(cancionBuscada);
+		user.seleccionarCancionComoFavorita(buscadaDos);
+
+		user.deseleccionarCancionComoFavorita(cancionBuscada);
+
+		// VALIDACION
+		assertEquals(CANTIDAD_CANCIONES_EN_FAVORITOS_UNO,user.obtenerLaCantidadDeCancionesDeUnaPlaylist(NOMBRE_PLAYLIST));
+
+	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+	@Test
+	public void queAlBuscarUnaCancionDeLaBDSePuedaReproducirLaCancionMostrandoNombreArtistaLaLetraYSuDuracion() {
+		// PREPARACION
+		// Registro un usuario basico
+		final String NOMBRE = "Onda Feliz";
+		Reproductor reproductor = new Reproductor(NOMBRE);
+		reproductor.inicializarBaseDeDatosconCanciones();
+
+		final String INFORMACION_ESPERADA = "Cancion: Hot in it" + "\nArtista: Tiësto & Charli XCX" + "\nDuracion: 2:24"
+				+ "\nLetra: It's Charli, baby" + "\nTiësto" + "\nYou won't see me crying on the bathroom floor"
+				+ "\nI ain't never coming back for more" + "\n------------------------------------------------------";
+		final String USERNAME = "jesibel12";
+		final String MAIL = "jesi@mail.com";
+		final String PASSWORD = "b@Rto1357";
+		final int DIA = 2;
+		final int MES = 11;
+		final int ANIO = 1996;
+
+		Usuario user = new UsuarioBasico(USERNAME, MAIL, PASSWORD, DIA, MES, ANIO);
+		reproductor.registrarUsuario(user);
+		Integer idUser = reproductor.iniciarSesion(MAIL, PASSWORD);
+
+		// Seleccionar una cancion para escuchar ingresando el nombre de la cancion
+		Cancion cancionSonando = reproductor.buscarCancionesPorNombre("Hot in it");
+
+		// VALIDACION
+		assertNotNull(cancionSonando);
+		assertEquals(INFORMACION_ESPERADA, reproductor.play(cancionSonando, idUser));
+		assertTrue(cancionSonando.getEstaSonando());
+
+	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+	@Test
+	public void queSePuedaCambiarLaCancionQueSeEstaSonandoAlaSiguiente() {
+		// PREPARACION
+		// Registro un usuario basico
+		final String NOMBRE = "Onda Feliz";
+		Reproductor reproductor = new Reproductor(NOMBRE);
+		reproductor.inicializarBaseDeDatosconCanciones();
+
+		final String USERNAME = "jesibel12";
+		final String MAIL = "jesi@mail.com";
+		final String PASSWORD = "b@Rto1357";
+		final int DIA = 2;
+		final int MES = 11;
+		final int ANIO = 1996;
+		final Genero GENERO_SELECCIONADO = Genero.DANCE_ELECTRONICA;
+
+		Cancion SIGUIENTE = new Cancion("Out of touch", "Cut", "3:20", Genero.DANCE_ELECTRONICA,
+				"I'm out of touch\n" + "I'm out of sync with you\n" + "I'm out of touch");
+
+		reproductor.agregarCancionALaBD(SIGUIENTE);
+
+		Usuario user = new UsuarioBasico(USERNAME, MAIL, PASSWORD, DIA, MES, ANIO);
+
+		reproductor.registrarUsuario(user);
+
+		// Inicio sesion el usuario basico
+		Integer idUser = reproductor.iniciarSesion(MAIL, PASSWORD);
+
+		// Buscar una lista por genero
+		LinkedHashSet<Cancion> encontradas = reproductor.buscarCancionesPorGenero(GENERO_SELECCIONADO);
+
+		// Seleccionar una cancion para escuchar
+		Cancion actualSonando = reproductor.seleccionarCancionEnUnaListaDeterminada("Hot in it", encontradas);
+
+		reproductor.play(actualSonando, idUser);
+
+		assertNotNull(actualSonando);
+		assertTrue(actualSonando.getEstaSonando());
+		assertEquals(SIGUIENTE, reproductor.next(actualSonando, encontradas));
+	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+	@Test
+	public void queSePuedaCambiarLaCancionQueSeEstaSonandoAlaAnterior() {
+		// PREPARACION
+		// Registro un usuario basico
+		final String NOMBRE = "Onda Feliz";
+		Reproductor reproductor = new Reproductor(NOMBRE);
+		reproductor.inicializarBaseDeDatosconCanciones();
+
+
+		final String USERNAME = "jesibel12";
+		final String MAIL = "jesi@mail.com";
+		final String PASSWORD = "b@Rto1357";
+		final int DIA = 2;
+		final int MES = 11;
+		final int ANIO = 1996;
+		final Genero GENERO_SELECCIONADO = Genero.DANCE_ELECTRONICA;
+
+		Cancion actualEsperada = new Cancion("Out of touch", "Cut", "3:20", Genero.DANCE_ELECTRONICA,
+				"I'm out of touch\n" + "I'm out of sync with you\n" + "I'm out of touch");
+
+		Cancion previaEsperada = new Cancion("Hot in it", "Tiësto & Charli XCX", "2:24", Genero.DANCE_ELECTRONICA,
+				"It's Charli, baby\n" + "Tiësto\n" + "You won't see me crying on the bathroom floor\n"
+						+ "I ain't never coming back for more");
+
+		reproductor.agregarCancionALaBD(actualEsperada);
+
+		Usuario user = new UsuarioBasico(USERNAME, MAIL, PASSWORD, DIA, MES, ANIO);
+
+		reproductor.registrarUsuario(user);
+
+		// Inicio sesion el usuario basico
+		Integer idUser = reproductor.iniciarSesion(MAIL, PASSWORD);
+
+		// Buscar una lista por genero
+		LinkedHashSet<Cancion> encontradas = reproductor.buscarCancionesPorGenero(GENERO_SELECCIONADO);
+
+		// Seleccionar una cancion para escuchar
+		Cancion actualSonando = reproductor.seleccionarCancionEnUnaListaDeterminada("Out of touch", encontradas);
+
+		reproductor.play(actualSonando, idUser);
+
+		assertNotNull(actualSonando);
+		assertTrue(actualSonando.getEstaSonando());
+		assertEquals(actualEsperada, actualSonando);
+		assertEquals(previaEsperada, reproductor.previous(actualSonando, encontradas));
+
+	}
+
 
 }

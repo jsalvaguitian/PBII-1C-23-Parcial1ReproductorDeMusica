@@ -1,9 +1,9 @@
 package ar.edu.unlam.pb2.parcial1.reproductor.tdd;
 
 public abstract class Audio {
-	private String nombre;
-	private String artista;
-	private String duracion;
+	protected String nombre;
+	protected String artista;
+	protected String duracion;
 	
 	public Audio(String nombre, String artista, String duracion) {
 		this.nombre = nombre;
@@ -40,6 +40,18 @@ public abstract class Audio {
 		} else if (!nombre.equals(other.nombre))
 			return false;
 		return true;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public String getArtista() {
+		return artista;
+	}
+
+	public String getDuracion() {
+		return duracion;
 	}
 	
 	
