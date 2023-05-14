@@ -468,6 +468,34 @@ public class ReproductorTest {
 
 	}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
+	@Test
+	public void queNoSePuedaIniciarSesionSiElUsuarioPremiumIngresoContraseniaInvalida() {
+
+		// PREPARACION
+		final String NOMBRE = "Onda Feliz";
+		Reproductor reproductor = new Reproductor(NOMBRE);
+
+		// Usuario Registrado
+		final String USERNAME = "Juan456";
+		final String MAIL = "juan@mail.com";
+		final String PASSWORD = "A6opqr!8905";
+		final int DIA = 22;
+		final int MES = 1;
+		final int ANIO = 2000;
+		Usuario otroUser = new UsuarioPremium(USERNAME, MAIL, PASSWORD, DIA, MES, ANIO);
+
+		reproductor.registrarUsuario(otroUser);
+
+		// EJECUCION
+		// Usuario intenta iniciar sesion
+		final String USERNAME_INGRESADO = "Juan456";
+		final String PASSWORD_INGRESADO = "k@reN1567";
+
+		assertNull(reproductor.iniciarSesion(USERNAME_INGRESADO, PASSWORD_INGRESADO));
+
+	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	// *********************************************************
 	// Prueba de que el usuario pueda crear y agregar canciones en su playList
 	@Test
