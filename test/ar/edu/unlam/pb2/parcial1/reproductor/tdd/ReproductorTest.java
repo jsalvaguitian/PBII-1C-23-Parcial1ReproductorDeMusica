@@ -64,6 +64,29 @@ public class ReproductorTest {
 	}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 	@Test
+	public void queNoSePuedaRegistrarUnUsuarioBasicoQueNoTengaUnContraseniaValida() {
+		// Preparacion de datos
+		final String NOMBRE = "Onda Feliz";
+		Reproductor reproductor = new Reproductor(NOMBRE);
+
+		final String USERNAME = "karen123";
+		final String MAIL = "karen@mail.com";
+		final String PASSWORD = "abcdefgh";
+		final int DIA = 21; 
+		final int MES = 2;
+		final int ANIO = 1996;
+
+		Usuario miUser;
+		final Integer CANTIDAD_USUARIO_ESPERADO_CERO = 0;
+
+		// Ejecucion
+		miUser = new UsuarioBasico(USERNAME, MAIL, PASSWORD, DIA, MES, ANIO);
+		assertFalse(Usuario.esValidoLaContrasenia(PASSWORD));
+		assertFalse(reproductor.registrarUsuario(miUser));
+		assertEquals(CANTIDAD_USUARIO_ESPERADO_CERO, reproductor.obtenerCantidadUsuarios());
+	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+	@Test
 	public void queNoSePuedaRegistrarUnUsuarioBasicoSiSuMailEstaDuplicadoEnLaBaseDeDatosDeUsuarios() {
 		// Preparacion de datos
 		final String NOMBRE = "Onda Feliz";
