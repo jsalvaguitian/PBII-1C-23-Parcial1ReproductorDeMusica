@@ -13,6 +13,16 @@ public abstract class Audio {
 		this.volumenAudio = new Volumen(2);
 	}
 
+
+	public Volumen getVolumenAudio() {
+		return volumenAudio;
+	}
+
+	public void setVolumenAudio(Volumen volumenAudio) {
+		this.volumenAudio = volumenAudio;
+	}
+	
+	
 /* 
 por defecto, al comienzo el volumen está en 2, luego se puede modificar 
 */
