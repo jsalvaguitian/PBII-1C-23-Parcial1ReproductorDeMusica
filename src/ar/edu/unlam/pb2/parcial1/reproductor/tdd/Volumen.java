@@ -5,8 +5,12 @@ public class Volumen {
 	private final Integer VOLUMEN_MINIMO=0;
 	private Integer volumenActual;
 	
-	
-	
+
+	public Volumen(Integer volumenActual) {
+		super();
+		this.volumenActual = volumenActual;
+	}
+
 	public Integer getVolumenActual() {
 		return volumenActual;
 	}
