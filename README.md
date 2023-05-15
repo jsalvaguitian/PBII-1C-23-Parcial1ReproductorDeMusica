@@ -10,12 +10,12 @@
 :sparkles: Nuestro modo de trabajo fue el siguiente: 
 
 
-    :computer: _Primero nos reunimos para armar el Diagrama de Clases._ 
+:star: _Primero nos reunimos para armar el Diagrama de Clases._ 
 
-    :computer: _Segundo, bosquejamos juntas las primeras clases con sus atributos y métodos._
+:star: _Segundo, bosquejamos juntas las primeras clases con sus atributos y métodos._
 
-    :computer: _Tercero, comenzamos a redactar un documento funcional con los tests para garantizar el correcto funcionamiento del programa._
+:star: _Tercero, comenzamos a redactar un documento funcional con los tests para garantizar el correcto funcionamiento del programa._
 
-    :computer: _Luego, comenzamos a subir código al repositorio, siempre haciendo Pair Programming, revisando juntas cada fragmento del mismo._
+:star: _Luego, comenzamos a subir código al repositorio, siempre haciendo Pair Programming, revisando juntas cada fragmento del mismo._
 
-    :computer: _Por último, realizamos correcciones menores de errores._
+:star: _Por último, realizamos correcciones menores de errores._
