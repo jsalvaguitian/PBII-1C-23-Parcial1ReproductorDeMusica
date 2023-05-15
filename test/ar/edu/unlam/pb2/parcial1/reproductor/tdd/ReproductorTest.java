@@ -610,6 +610,42 @@ public class ReproductorTest {
 	}
 	
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
+	@Test
+	public void queNoSePuedaAgregarUnaCancionAUnaPlayListSiElUsuarioNoInicioSesion() {
+		// *****PREPARACION*****
+		// Registro un usuario basico
+		final String NOMBRE = "Onda Feliz";
+		Reproductor reproductor = new Reproductor(NOMBRE);
+		reproductor.inicializarBaseDeDatosconCanciones();
+
+		final String NOMBRE_PLAYLIST_1 = "Hits verano 2022";
+
+		final String USERNAME = "maria678";
+		final String MAIL = "maria@mail.com";
+		final String PASSWORD = "m@riA9078";
+		final int DIA = 12;
+		final int MES = 5;
+		final int ANIO = 1998;
+		Usuario unUser = new UsuarioBasico(USERNAME, MAIL, PASSWORD, DIA, MES, ANIO);
+
+		reproductor.registrarUsuario(unUser);
+
+		// No se inicia sesion 
+		
+		// Se agrega una playlist
+		unUser.crearNuevaPlayList(NOMBRE_PLAYLIST_1);
+
+		// Agregarle 10 canciones :-s mama mia
+		Cancion miCancion = reproductor.buscarCancionesPorNombre("Piel morena");
+		
+		// ***** EJECUCION *****
+		unUser.agregarCancionALaPLayList(NOMBRE_PLAYLIST_1, miCancion);
+
+		// VALIDACION
+		assertFalse(unUser.agregarCancionALaPLayList(NOMBRE_PLAYLIST_1, miCancion));
+	}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////	
 	/*
 	 *Un intento de obtener 1 dailyMix de 5 canciones, el cual se basará según la música que escucha y/o
 	 * el género de canciones que le gusta
