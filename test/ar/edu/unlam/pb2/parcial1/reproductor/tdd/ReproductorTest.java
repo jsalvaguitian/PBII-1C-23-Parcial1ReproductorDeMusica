@@ -417,6 +417,22 @@ public class ReproductorTest {
 	}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 	@Test
+	public void queSePuedaGuardarPodCastInicialMenteVacioEnLaBaseDeDatosDePodcastDelReproductor() {
+	//Se agrega un podcast inicialmente sin episodios 
+		
+	// PREPARACION
+	final String NOMBRE = "Onda Feliz";
+	Reproductor reproductor = new Reproductor(NOMBRE);
+	reproductor.inicializarBaseDeDatosconCanciones();
+	
+	
+	reproductor.agregarPodcast(new Podcast ("Entrevistas con cientificos" , "Ministerio de Educacion", "Entrevistas a cientificos destacados de Argentina", Categoria.EDUCACION));
+	
+	assertNotNull(reproductor.getCantidadDeEpisodiosDelPodcastPorNombre("Entrevistas con cientificos"));
+	
+	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+	@Test
 	public void queNoSePuedaGuardarCancionConNombreYArtistaDuplicadoEnLaBDDeCancionesDelReproductor() {
 		// PREPARACION
 		final String NOMBRE = "Onda Feliz";
