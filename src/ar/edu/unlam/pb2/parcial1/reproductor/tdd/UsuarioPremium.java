@@ -42,12 +42,6 @@ public class UsuarioPremium extends Usuario {
 	}
 
 	@Override
-	protected ListaDeReproduccion seleccionarDailymix(String nombreDailymix) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	protected boolean agregarPodcast(Podcast unpod) {
 		// TODO Auto-generated method stub
 		return false;
