@@ -68,15 +68,6 @@ public class UsuarioBasico extends Usuario {
 	}
 
 	@Override
-	protected ListaDeReproduccion seleccionarDailymix(String nombreDailymix) {
-		for(ListaDeReproduccion dailymix : this.dailyMixes) {
-			if(dailymix.getNombre().equals(nombreDailymix))
-				return dailymix;
-		}
-		return null;
-	}
-
-	@Override
 	protected boolean agregarPodcast(Podcast unpod) {
 		int contadorPodcast =0;
 		

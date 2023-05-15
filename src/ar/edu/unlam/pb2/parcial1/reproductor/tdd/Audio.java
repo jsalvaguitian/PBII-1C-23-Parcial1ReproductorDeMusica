@@ -4,12 +4,28 @@ public abstract class Audio {
 	protected String nombre;
 	protected String artista;
 	protected String duracion;
+	protected Volumen volumenAudio;
 	
 	public Audio(String nombre, String artista, String duracion) {
 		this.nombre = nombre;
 		this.artista = artista;
 		this.duracion = duracion;
+		this.volumenAudio = new Volumen(2);
 	}
+
+
+	public Volumen getVolumenAudio() {
+		return volumenAudio;
+	}
+
+	public void setVolumenAudio(Volumen volumenAudio) {
+		this.volumenAudio = volumenAudio;
+	}
+	
+	
+/* 
+por defecto, al comienzo el volumen está en 2, luego se puede modificar 
+*/
 
 	@Override
 	public int hashCode() {
@@ -54,6 +70,8 @@ public abstract class Audio {
 		return duracion;
 	}
 	
-	
+/* 
+la sobreescritura de hashcode y de equals, nos permitira establecer el criterio por el cual 2 objetos de audio son iguales
+*/
 
 }

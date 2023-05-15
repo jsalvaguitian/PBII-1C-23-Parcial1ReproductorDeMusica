@@ -64,6 +64,29 @@ public class ReproductorTest {
 	}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 	@Test
+	public void queNoSePuedaRegistrarUnUsuarioBasicoQueNoTengaUnContraseniaValida() {
+		// Preparacion de datos
+		final String NOMBRE = "Onda Feliz";
+		Reproductor reproductor = new Reproductor(NOMBRE);
+
+		final String USERNAME = "karen123";
+		final String MAIL = "karen@mail.com";
+		final String PASSWORD = "abcdefgh";
+		final int DIA = 21; 
+		final int MES = 2;
+		final int ANIO = 1996;
+
+		Usuario miUser;
+		final Integer CANTIDAD_USUARIO_ESPERADO_CERO = 0;
+
+		// Ejecucion
+		miUser = new UsuarioBasico(USERNAME, MAIL, PASSWORD, DIA, MES, ANIO);
+		assertFalse(Usuario.esValidoLaContrasenia(PASSWORD));
+		assertFalse(reproductor.registrarUsuario(miUser));
+		assertEquals(CANTIDAD_USUARIO_ESPERADO_CERO, reproductor.obtenerCantidadUsuarios());
+	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+	@Test
 	public void queNoSePuedaRegistrarUnUsuarioBasicoSiSuMailEstaDuplicadoEnLaBaseDeDatosDeUsuarios() {
 		// Preparacion de datos
 		final String NOMBRE = "Onda Feliz";
@@ -95,6 +118,108 @@ public class ReproductorTest {
 		// Validacion
 		assertFalse(reproductor.registrarUsuario(user2));
 		assertEquals(CANTIDAD_USUARIO_ESPERADO_UNO, reproductor.obtenerCantidadUsuarios());
+	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+	@Test
+	public void queNoSePuedaRegistrarUnUsuarioBasicoSiElUsernameEstaDuplicadoEnLaBaseDeDatosDeUsuarios(){
+		// Preparacion de datos
+		final String NOMBRE = "Onda Feliz";
+		Reproductor reproductor = new Reproductor(NOMBRE);
+
+		// Usuario 1
+		final String USERNAME = "jesibel12";
+		final String MAIL = "jesi@mail.com";
+		final String PASSWORD = "b@Rto1357";
+		final int DIA = 2;
+		final int MES = 11;
+		final int ANIO = 1996;
+		Usuario user1 = new UsuarioBasico(USERNAME, MAIL, PASSWORD, DIA, MES, ANIO);
+
+		// Usuario 2
+		final String USERNAME_2 = "jesibel12";
+		final String MAIL_2 = "karen@mail.com";
+		final String PASSWORD_2 = "k@reN1567";
+		final int DIA_2 = 5;
+		final int MES_2 = 10;
+		final int ANIO_2 = 1995;
+		Usuario user2 = new UsuarioBasico(USERNAME_2, MAIL_2, PASSWORD_2, DIA_2, MES_2, ANIO_2);
+
+		final Integer CANTIDAD_USUARIO_ESPERADO_UNO = 1;
+
+		// Ejecucion
+		reproductor.registrarUsuario(user1);
+
+		// Validacion
+		assertFalse(reproductor.registrarUsuario(user2));
+		assertEquals(CANTIDAD_USUARIO_ESPERADO_UNO, reproductor.obtenerCantidadUsuarios());
+	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+	@Test
+	public void queSePuedaRegistrarDosUsuariosBasicosConDatosValidos(){
+		// Preparacion de datos
+		final String NOMBRE = "Onda Feliz";
+		Reproductor reproductor = new Reproductor(NOMBRE);
+
+		// Usuario 1
+		final String USERNAME = "jesibel12";
+		final String MAIL = "jesi@mail.com";
+		final String PASSWORD = "b@Rto1357";
+		final int DIA = 2;
+		final int MES = 11;
+		final int ANIO = 1996;
+		Usuario user1 = new UsuarioBasico(USERNAME, MAIL, PASSWORD, DIA, MES, ANIO);
+
+		// Usuario 2
+		final String USERNAME_2 = "karen123";
+		final String MAIL_2 = "karen@mail.com";
+		final String PASSWORD_2 = "k@reN1567";
+		final int DIA_2 = 5;
+		final int MES_2 = 10;
+		final int ANIO_2 = 1995;
+		Usuario user2 = new UsuarioBasico(USERNAME_2, MAIL_2, PASSWORD_2, DIA_2, MES_2, ANIO_2);
+
+		final Integer CANTIDAD_USUARIOS_ESPERADOS_DOS = 2;
+
+		// Ejecucion
+		reproductor.registrarUsuario(user1);
+		reproductor.registrarUsuario(user2);
+
+		// Validacion
+		assertEquals(CANTIDAD_USUARIOS_ESPERADOS_DOS, reproductor.obtenerCantidadUsuarios());
+	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+	@Test
+	public void queSePuedaRegistrarDosUsuariosPremiumConDatosValidos(){
+		// Preparacion de datos
+		final String NOMBRE = "Onda Feliz";
+		Reproductor reproductor = new Reproductor(NOMBRE);
+
+		// Usuario 1
+		final String USERNAME = "jesibel12";
+		final String MAIL = "jesi@mail.com";
+		final String PASSWORD = "b@Rto1357";
+		final int DIA = 2;
+		final int MES = 11;
+		final int ANIO = 1996;
+		Usuario user1 = new UsuarioPremium(USERNAME, MAIL, PASSWORD, DIA, MES, ANIO);
+
+		// Usuario 2
+		final String USERNAME_2 = "karen123";
+		final String MAIL_2 = "karen@mail.com";
+		final String PASSWORD_2 = "k@reN1567";
+		final int DIA_2 = 5;
+		final int MES_2 = 10;
+		final int ANIO_2 = 1995;
+		Usuario user2 = new UsuarioPremium(USERNAME_2, MAIL_2, PASSWORD_2, DIA_2, MES_2, ANIO_2);
+
+		final Integer CANTIDAD_USUARIOS_ESPERADOS_DOS = 2;
+
+		// Ejecucion
+		reproductor.registrarUsuario(user1);
+		reproductor.registrarUsuario(user2);
+
+		// Validacion
+		assertEquals(CANTIDAD_USUARIOS_ESPERADOS_DOS, reproductor.obtenerCantidadUsuarios());
 	}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 	@Test
@@ -214,7 +339,28 @@ public class ReproductorTest {
 
 	}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
+	@Test
+	public void queSePuedaIniciarSesionSiElUsuarioBasicoEstaRegistradoEnElReproductor() {
 
+		// PREPARACION
+		final String NOMBRE = "Onda Feliz";
+		Reproductor reproductor = new Reproductor(NOMBRE);
+
+		// Usuario Registrado
+		final String USERNAME = "karen123";
+		final String MAIL = "karen@mail.com";
+		final String PASSWORD = "k@reN1567";
+		final int DIA = 5;
+		final int MES = 10;
+		final int ANIO = 1997;
+		Usuario miUser = new UsuarioBasico(USERNAME, MAIL, PASSWORD, DIA, MES, ANIO);
+
+		reproductor.registrarUsuario(miUser);
+
+		assertNotNull(reproductor.iniciarSesion(USERNAME, PASSWORD));
+
+	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Probar Almacenar canciones,episodios en sus respectivas bd
 
 	@Test
@@ -271,6 +417,22 @@ public class ReproductorTest {
 	}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 	@Test
+	public void queSePuedaGuardarPodCastInicialMenteVacioEnLaBaseDeDatosDePodcastDelReproductor() {
+	//Se agrega un podcast inicialmente sin episodios 
+		
+	// PREPARACION
+	final String NOMBRE = "Onda Feliz";
+	Reproductor reproductor = new Reproductor(NOMBRE);
+	reproductor.inicializarBaseDeDatosconCanciones();
+	
+	
+	reproductor.agregarPodcast(new Podcast ("Entrevistas con cientificos" , "Ministerio de Educacion", "Entrevistas a cientificos destacados de Argentina", Categoria.EDUCACION));
+	
+	assertNotNull(reproductor.getCantidadDeEpisodiosDelPodcastPorNombre("Entrevistas con cientificos"));
+	
+	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+	@Test
 	public void queNoSePuedaGuardarCancionConNombreYArtistaDuplicadoEnLaBDDeCancionesDelReproductor() {
 		// PREPARACION
 		final String NOMBRE = "Onda Feliz";
@@ -322,6 +484,34 @@ public class ReproductorTest {
 
 	}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
+	@Test
+	public void queNoSePuedaIniciarSesionSiElUsuarioPremiumIngresoContraseniaInvalida() {
+
+		// PREPARACION
+		final String NOMBRE = "Onda Feliz";
+		Reproductor reproductor = new Reproductor(NOMBRE);
+
+		// Usuario Registrado
+		final String USERNAME = "Juan456";
+		final String MAIL = "juan@mail.com";
+		final String PASSWORD = "A6opqr!8905";
+		final int DIA = 22;
+		final int MES = 1;
+		final int ANIO = 2000;
+		Usuario otroUser = new UsuarioPremium(USERNAME, MAIL, PASSWORD, DIA, MES, ANIO);
+
+		reproductor.registrarUsuario(otroUser);
+
+		// EJECUCION
+		// Usuario intenta iniciar sesion
+		final String USERNAME_INGRESADO = "Juan456";
+		final String PASSWORD_INGRESADO = "k@reN1567";
+
+		assertNull(reproductor.iniciarSesion(USERNAME_INGRESADO, PASSWORD_INGRESADO));
+
+	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	// *********************************************************
 	// Prueba de que el usuario pueda crear y agregar canciones en su playList
 	@Test
@@ -420,6 +610,42 @@ public class ReproductorTest {
 	}
 	
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
+	@Test
+	public void queNoSePuedaAgregarUnaCancionAUnaPlayListSiElUsuarioNoInicioSesion() {
+		// *****PREPARACION*****
+		// Registro un usuario basico
+		final String NOMBRE = "Onda Feliz";
+		Reproductor reproductor = new Reproductor(NOMBRE);
+		reproductor.inicializarBaseDeDatosconCanciones();
+
+		final String NOMBRE_PLAYLIST_1 = "Hits verano 2022";
+
+		final String USERNAME = "maria678";
+		final String MAIL = "maria@mail.com";
+		final String PASSWORD = "m@riA9078";
+		final int DIA = 12;
+		final int MES = 5;
+		final int ANIO = 1998;
+		Usuario unUser = new UsuarioBasico(USERNAME, MAIL, PASSWORD, DIA, MES, ANIO);
+
+		reproductor.registrarUsuario(unUser);
+
+		// No se inicia sesion 
+		
+		// Se agrega una playlist
+		unUser.crearNuevaPlayList(NOMBRE_PLAYLIST_1);
+
+		// Agregarle 10 canciones :-s mama mia
+		Cancion miCancion = reproductor.buscarCancionesPorNombre("Piel morena");
+		
+		// ***** EJECUCION *****
+		unUser.agregarCancionALaPLayList(NOMBRE_PLAYLIST_1, miCancion);
+
+		// VALIDACION
+		assertFalse(unUser.agregarCancionALaPLayList(NOMBRE_PLAYLIST_1, miCancion));
+	}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////	
 	/*
 	 *Un intento de obtener 1 dailyMix de 5 canciones, el cual se basará según la música que escucha y/o
 	 * el género de canciones que le gusta
@@ -676,5 +902,41 @@ public class ReproductorTest {
 
 	}
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+	@Test
+	public void queNoSePuedaSubirElVolumenDeUnaCancionMasDelMaximo() {
+		// Preparacion de datos 
+		Boolean resultadoObtenido;
+		Boolean resultadoEsperado=false;
+		Cancion unaCancion = new Cancion("Billie Jean", "Michael Jackson", "2:59", Genero.POP,"");
+		unaCancion.volumenAudio.setVolumenActual(10);
+		
+		// Ejecucion
+		resultadoObtenido=unaCancion.volumenAudio.subirVolumen();
+		
+		// Validacion
+		assertEquals(resultadoEsperado,resultadoObtenido);
+		
+	}
+	
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+	@Test
+	public void queNoSePuedaBajarElVolumenDeUnaCancionMenosDelMinimo() {
+		// Preparacion de datos 
+		Boolean resultadoObtenido;
+		Boolean resultadoEsperado=false;
+		Cancion otraCancion = new Cancion("Que bonito", "Rosario", "4:59", Genero.POP,"");
+		otraCancion.volumenAudio.setVolumenActual(0);
+		
+		// Ejecucion
+		resultadoObtenido=otraCancion.volumenAudio.bajarVolumen();
+		
+		// Validacion
+		assertEquals(resultadoEsperado,resultadoObtenido);
+		
+	}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////	
+	
 
 }

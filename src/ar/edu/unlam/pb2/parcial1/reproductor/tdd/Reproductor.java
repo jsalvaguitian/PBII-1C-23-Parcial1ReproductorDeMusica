@@ -134,6 +134,18 @@ public class Reproductor {
 		return null;
 	}
 
+	// ---------------------------------------------------------------------------------	
+	public LinkedHashSet<Podcast> buscarListaDePodcastPorCategoria(Categoria categoria) {
+		LinkedHashSet<Podcast> listaPodcastDeUnaCategoria = new LinkedHashSet<Podcast>();
+		for (Podcast actual : this.baseDeDatosPodcast) {
+			if (actual.getCategoria().equals(categoria)) {
+				listaPodcastDeUnaCategoria.add(actual);
+			}
+			return listaPodcastDeUnaCategoria;
+		}
+		return null;
+	}
+
 	// Esto es una prueba
 	/*
 	 * Recordatorio: Los elementos de hashset se ordenan en función de su hashcode,

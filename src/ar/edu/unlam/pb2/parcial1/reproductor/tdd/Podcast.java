@@ -38,10 +38,13 @@ public class Podcast extends ListaDeReproduccion{
 	public Categoria getCategoria() {
 		return categoria;
 	}
+	
 
-
-	public boolean agregarEpisodio(Episodio episodio) {
-		return this.episodios.add(episodio);
+	public Boolean agregarEpisodio(Episodio episodio) {
+		if(!this.episodios.contains(episodio)) {
+			return this.episodios.add(episodio);
+		}
+		return false;
 	}
 
 
@@ -49,8 +52,13 @@ public class Podcast extends ListaDeReproduccion{
 		return this.episodios.size();
 	}
 	
-	
-	
+	public Boolean borrarEpisodio(Episodio episodio) {
+		
+		if(!this.episodios.isEmpty() && this.episodios.contains(episodio)) {
+			return this.episodios.remove(episodio);
+		}
+		return false;
+	}	
 	
 	
 
