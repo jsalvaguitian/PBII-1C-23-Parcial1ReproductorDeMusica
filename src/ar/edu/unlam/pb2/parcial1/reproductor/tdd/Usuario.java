@@ -215,7 +215,13 @@ public abstract class Usuario {
 		
 	}
 
-	protected abstract ListaDeReproduccion seleccionarDailymix(String nombreDailymix);
+	public ListaDeReproduccion seleccionarDailymix(String nombreDailymix) {
+		for(ListaDeReproduccion dailymix : this.dailyMixes) {
+			if(dailymix.getNombre().equals(nombreDailymix))
+				return dailymix;
+		}
+		return null;
+	}
 
 	protected abstract boolean agregarPodcast(Podcast unpod);
 
