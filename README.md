@@ -4,7 +4,7 @@
 
 :dizzy: La temática elegida es: Reproductor de Música. 
 
-:sparkling_heart: En nuestro repositorio se incluyeron los temas solicitados: herencia, colecciones, test unitarios (con jUnit) y también aplicamos TDD.
+:sparkling_heart: En nuestro repositorio se incluyeron los temas solicitados: herencia, composición, colecciones, test unitarios (con jUnit) y también aplicamos TDD.
 
 
 :sparkles: Nuestro modo de trabajo fue el siguiente: 
