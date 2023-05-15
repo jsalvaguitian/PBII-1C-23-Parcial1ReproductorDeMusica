@@ -167,8 +167,6 @@ public abstract class Usuario {
 
 	protected abstract Boolean crearNuevaPlayList(String nombrePlayList);
 
-	protected abstract Integer obtenerLaCantidadDePlayList();
-
 	public boolean agregarCancionALaPLayList(String nombrePlaylist, Cancion cancionSeleccionada) {
 		Boolean fueExitoso = false;
 		String nombreDeClase = this.getClass().getSimpleName();
@@ -226,6 +224,23 @@ public abstract class Usuario {
 	protected abstract boolean agregarPodcast(Podcast unpod);
 
 	protected abstract boolean agregarDailymix(ListaDeReproduccion dailymix);
+	
+	protected abstract Integer obtenerLaCantidadDePlayList();
+	
+	public Integer obtenerCantidadPodcast() {
+		Integer contador = 0;
+
+		if(this.inicioSesion) {
+			for (ListaDeReproduccion uno : biblioteca) {
+				if (uno instanceof Podcast)
+					contador++;
+			}
+			return contador;
+		}
+		return contador;
+		
+	}
+
 	
 
 }

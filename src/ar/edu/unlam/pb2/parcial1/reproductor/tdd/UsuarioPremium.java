@@ -12,14 +12,24 @@ public class UsuarioPremium extends Usuario {
 
 	@Override
 	protected Boolean crearNuevaPlayList(String nombrePlayList) {
-		// TODO Auto-generated method stub
-		return null;
+		if(this.inicioSesion) {
+			return this.biblioteca.add(new ListaDeReproduccion(nombrePlayList));
+		}
+		return false;
 	}
 
 	@Override
 	protected Integer obtenerLaCantidadDePlayList() {
-		// TODO Auto-generated method stub
-		return null;
+		Integer contador = 0;
+
+		if(this.inicioSesion) {
+			for (ListaDeReproduccion uno : biblioteca) {
+				if (uno instanceof ListaDeReproduccion && !(uno.getNombre().equals(NOMBRE_PLAYLIST_DE_FAVORITOS)))
+					contador++;
+			}
+			return contador;
+		}
+		return contador;
 	}
 
 	@Override
@@ -43,14 +53,19 @@ public class UsuarioPremium extends Usuario {
 
 	@Override
 	protected boolean agregarPodcast(Podcast unpod) {
-		// TODO Auto-generated method stub
+		if(this.inicioSesion && unpod !=null) {
+			return this.biblioteca.add(unpod);
+		}
 		return false;
 	}
 
 	@Override
 	protected boolean agregarDailymix(ListaDeReproduccion dailymix) {
-		// TODO Auto-generated method stub
+		if(inicioSesion) {
+			return this.biblioteca.add(dailymix);
+		}
 		return false;
+		
 	}
 
 

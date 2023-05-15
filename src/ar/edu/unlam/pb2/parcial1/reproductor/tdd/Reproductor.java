@@ -368,4 +368,10 @@ public class Reproductor {
 		return masEscuchada;
 	}
 
+	public void inicializarBDPodcast() {
+		this.baseDeDatosPodcast.add(new Podcast("Curso Ingles", "Duolingo", "Aprendemos inglés", Categoria.EDUCACION));
+		this.baseDeDatosPodcast.add(new Podcast("Curso Frances", "El Buho", "Aprendemos frances", Categoria.EDUCACION));
+		this.baseDeDatosPodcast.add(new Podcast("Aprendemos más de Manuel Belgrano", "Historiador", "Manuel Belgrano", Categoria.HISTORIAS));
+		this.baseDeDatosPodcast.add(new Podcast("Opiniones deportivas", "Sport", "Varios", Categoria.DEPORTES));	
+	}
 }

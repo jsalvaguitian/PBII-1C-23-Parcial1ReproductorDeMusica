@@ -40,19 +40,6 @@ public class UsuarioBasico extends Usuario {
 
 	}
 
-	public Integer obtenerLaCantidadDePlayList() {
-		Integer contador = 0;
-
-		if(this.inicioSesion) {
-			for (ListaDeReproduccion uno : biblioteca) {
-				if (uno instanceof ListaDeReproduccion)
-					contador++;
-			}
-			return contador;
-		}
-		return contador;
-		
-	}
 
 	@Override
 	protected boolean seleccionarCancionComoFavorita(Cancion cancionBuscada) {
@@ -106,5 +93,20 @@ public class UsuarioBasico extends Usuario {
 		}
 		return false;
 	}
+	
+	@Override
+	protected Integer obtenerLaCantidadDePlayList() {
+		Integer contador = 0;
+
+		if(this.inicioSesion) {
+			for (ListaDeReproduccion uno : biblioteca) {
+				if (uno instanceof ListaDeReproduccion)
+					contador++;
+			}
+			return contador;
+		}
+		return contador;
+	}
+
 
 }

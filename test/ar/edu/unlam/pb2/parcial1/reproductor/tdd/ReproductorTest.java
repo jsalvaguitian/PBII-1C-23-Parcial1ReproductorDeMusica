@@ -937,6 +937,70 @@ public class ReproductorTest {
 	}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////	
-	
+	@Test
+	public void queSePuedaAgregarMasDeDosPlaylistEnLaBibliotecaDelUsuarioPremium() {
+		// PREPARACION
+		// 1- preparo el reproductor
+		final String NOMBRE = "Onda Feliz";
+		Reproductor reproductor = new Reproductor(NOMBRE);
+		reproductor.inicializarBaseDeDatosconCanciones();
+
+		// 2-registro un usuario premium
+		final Integer CANTIDAD_PLAYLIST_ESPERADA = 3;
+		final String USERNAME = "juani";
+		final String MAIL = "juan@mail.com";
+		final String PASSWORD = "b@Rto1357";
+		final int DIA = 12;
+		final int MES = 12;
+		final int ANIO = 1996;
+
+		Usuario user = new UsuarioPremium(USERNAME, MAIL, PASSWORD, DIA, MES, ANIO);
+		reproductor.registrarUsuario(user);
+
+		// 3-inicia sesion
+		reproductor.iniciarSesion(MAIL, PASSWORD);
+
+		// EJECUCION
+		// crea 2 playlist
+		user.crearNuevaPlayList("Mi playlist 1");
+		user.crearNuevaPlayList("Otra playlist");
+		user.crearNuevaPlayList("playList 3");
+
+		// VALIDACION
+		assertEquals(CANTIDAD_PLAYLIST_ESPERADA, user.obtenerLaCantidadDePlayList());
+
+	}
+
+	@Test
+	public void queNoSePuedaAgregarMasDeUnPodcastEnLaBibliotecaDeUsuarioBasico() {
+		// PREPARACION
+		// 1- preparo el reproductor
+		final String NOMBRE = "Onda Feliz";
+		Reproductor reproductor = new Reproductor(NOMBRE);
+		reproductor.inicializarBDPodcast();
+
+		// 2-registro un usuario premium
+		final Integer CANTIDAD_ESPERADA_UN_PODCAST = 1;
+		final String USERNAME = "juani";
+		final String MAIL = "juan@mail.com";
+		final String PASSWORD = "b@Rto1357";
+		final int DIA = 12;
+		final int MES = 12;
+		final int ANIO = 1996;
+
+		Usuario user = new UsuarioBasico(USERNAME, MAIL, PASSWORD, DIA, MES, ANIO);
+		reproductor.registrarUsuario(user);
+
+		// 3-inicia sesion
+		reproductor.iniciarSesion(MAIL, PASSWORD);
+		Podcast seleccionado = reproductor.buscarPodcastPorNombre("Curso Ingles");
+		Podcast seleccionado2 = reproductor.buscarPodcastPorNombre("Aprendemos más de Manuel Belgrano");
+
+		user.agregarPodcast(seleccionado);
+		user.agregarPodcast(seleccionado2);
+
+		assertEquals(CANTIDAD_ESPERADA_UN_PODCAST, user.obtenerCantidadPodcast());
+
+	}
 
 }
